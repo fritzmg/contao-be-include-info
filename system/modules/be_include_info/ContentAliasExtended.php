@@ -35,7 +35,7 @@ class ContentAliasExtended extends \ContentAlias
 			$objTemplate = new \BackendTemplate('be_include');
 
 			// get the parent article
-			$objArticle = \ArticleModel::findByPk($this->pid);
+			$objArticle = \ArticleModel::findByPk($this->cteAlias);
 
 			// get the parent pages
 			$objPages = \PageModel::findParentsById($objArticle->pid);
