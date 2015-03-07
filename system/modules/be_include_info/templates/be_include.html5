@@ -1,0 +1,17 @@
+
+<div class="tl_gray">
+	<p>
+		<i><?php echo $GLOBALS['TL_LANG']['tl_content']['inc_originalLabel']; ?></i>&nbsp;<?php echo $this->original; ?>&nbsp;<a href="<?php echo $this->editurl . '&amp;rt=' . REQUEST_TOKEN; ?>"><img src="system/themes/flexible/images/edit.gif" /></a>
+	</p>
+	<p>
+		<i><?php echo $GLOBALS['TL_LANG']['tl_content']['inc_includesLabel']; ?></i>
+		<ul>
+			<?php foreach( $this->includes as $inc ): ?>
+			<li><?php echo $inc; ?></li>
+			<?php endforeach; ?>
+		</ul>
+	</p>
+	<p>
+		<i><?php echo $GLOBALS['TL_LANG']['tl_content']['inc_contentLabel']; ?></i>
+	</p>
+</div>
