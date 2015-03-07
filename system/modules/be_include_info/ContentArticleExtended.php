@@ -58,7 +58,7 @@ class ContentArticleExtended extends \ContentArticle
 			// go throuch each include element
 			while( $objElements->next() )
 			{
-				// get the article
+				// get the parent article
 				$objArticle = \ArticleModel::findByPk($objElements->pid);
 
 				// get the parent pages
