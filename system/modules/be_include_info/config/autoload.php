@@ -18,8 +18,8 @@
  */
 ClassLoader::addClasses(array
 (
-	'Contao\ContentAliasExtended'   => 'system/modules/be_include_info/ContentAliasExtended.php',
-	'Contao\ContentArticleExtended' => 'system/modules/be_include_info/ContentArticleExtended.php'
+    'Contao\ContentAliasExtended'   => 'system/modules/be_include_info/ContentAliasExtended.php',
+    'Contao\ContentArticleExtended' => 'system/modules/be_include_info/ContentArticleExtended.php'
 ));
 
 
@@ -28,5 +28,5 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'be_include' => 'system/modules/be_include_info/templates'
+    'be_include' => 'system/modules/be_include_info/templates'
 ));

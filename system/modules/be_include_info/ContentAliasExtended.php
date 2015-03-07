@@ -23,62 +23,70 @@ namespace Contao;
 class ContentAliasExtended extends \ContentAlias
 {
 
-	/**
-	 * Parse the template
-	 * @return string
-	 */
-	public function generate()
-	{
-		if( TL_MODE == 'BE' )
-		{
-			// create new backend template
-			$objTemplate = new \BackendTemplate('be_include');
+    /**
+     * Parse the template
+     * @return string
+     */
+    public function generate()
+    {
+        if( TL_MODE == 'BE' )
+        {
+            // create new backend template
+            $objTemplate = new \BackendTemplate('be_include');
 
-			// get the parent article
-			$objArticle = \ArticleModel::findByPk($this->cteAlias);
+            // get the element
+            $objElement = \ContentModel::findByPk($this->cteAlias);
+            if( $objElement === null ) return parent::generate();
 
-			// get the parent pages
-			$objPages = \PageModel::findParentsById($objArticle->pid);
+            // get the parent article
+            $objArticle = \ArticleModel::findByPk($objElement->pid);
+            if( $objArticle === null ) return parent::generate();
 
-			// get the page titles
-			$arrPageTitles = array_reverse( $objPages->fetchEach('title') );
+            // get the parent pages
+            $objPages = \PageModel::findParentsById($objArticle->pid);
+            if( $objPages === null ) return parent::generate();
 
-			// get all include elements
-			$objElements = \ContentModel::findBy('cteAlias', $this->cteAlias, array('order' => 'id'));
+            // get the page titles
+            $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
 
-			// set breadcrumb to original element
-			$objTemplate->original = implode( ' &raquo; ', $arrPageTitles );
+            // get all include elements
+            $objElements = \ContentModel::findBy('cteAlias', $this->cteAlias, array('order' => 'id'));
 
-			// set edit url
-			$objTemplate->editurl = 'contao/main.php?do=article&amp;table=tl_content&amp;act=edit&amp;id=' . $this->cteAlias;
+            // set breadcrumb to original element
+            $objTemplate->original = implode( ' &raquo; ', $arrPageTitles );
 
-			// prepare include breadcrumbs
-			$includes = array();
+            // set edit url
+            $objTemplate->editurl = 'contao/main.php?do=article&amp;table=tl_content&amp;act=edit&amp;id=' . $this->cteAlias;
 
-			// go throuch each include element
-			while( $objElements->next() )
-			{
-				// get the parent article
-				$objArticle = \ArticleModel::findByPk($objElements->pid);
+            // prepare include breadcrumbs
+            $includes = array();
 
-				// get the parent pages
-				$objPages = \PageModel::findParentsById($objArticle->pid);	
-				
-				// get the page titles
-				$arrPageTitles = array_reverse( $objPages->fetchEach('title') );
+            // go throuch each include element
+            while( $objElements->next() )
+            {
+                // get the parent article
+                $objArticle = \ArticleModel::findByPk($objElements->pid);
+                if( $objArticle === null ) continue;
 
-				// create breadcrumb
-				$includes[] = ( $objElements->id == $this->id ? '<b>' : '' ) . implode( ' &raquo; ', $arrPageTitles ) . ( $objElements->id == $this->id ? '</b>' : '' );
-			}
+                // get the parent pages
+                $objPages = \PageModel::findParentsById($objArticle->pid);
+                if( $objPages === null ) continue;    
+                
+                // get the page titles
+                $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
 
-			// set include breadcrumbs
-			$objTemplate->includes = $includes;
+                // create breadcrumb
+                $includes[] = ( $objElements->id == $this->id ? '<b>' : '' ) . implode( ' &raquo; ', $arrPageTitles ) . ( $objElements->id == $this->id ? '</b>' : '' );
+            }
 
-			// return info + content
-			return $objTemplate->parse() . parent::generate();
-		}
+            // set include breadcrumbs
+            $objTemplate->includes = $includes;
 
-		// return content only
-		return parent::generate();
-	}
+            // return info + content
+            return $objTemplate->parse() . parent::generate();
+        }
+
+        // return content only
+        return parent::generate();
+    }
 }
