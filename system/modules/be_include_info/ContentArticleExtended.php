@@ -31,7 +31,7 @@ class ContentArticleExtended extends \ContentArticle
 	{
 		if( TL_MODE == 'BE' )
 		{
-			// create new wild card template
+			// create new backend template
 			$objTemplate = new \BackendTemplate('be_include');
 
 			// get the article
