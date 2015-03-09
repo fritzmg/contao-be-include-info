@@ -48,10 +48,15 @@ class ContentArticleExtended extends \ContentArticle
             $objElements = \ContentModel::findBy('articleAlias', $this->articleAlias, array('order' => 'id'));
 
             // set breadcrumb to original element
-            $objTemplate->original = implode( ' &raquo; ', $arrPageTitles );
-
-            // set edit url
-            $objTemplate->editurl = 'contao/main.php?do=article&amp;table=tl_content&amp;id=' . $this->articleAlias;
+            $objTemplate->original = array
+            (
+                'crumbs' => implode( ' &raquo; ', $arrPageTitles ),
+                'article' => array
+                (
+                    'title' => $objArticle->title,
+                    'link' => 'contao/main.php?do=article&amp;table=tl_content&amp;id=' . $objArticle->id . '&amp;rt=' . REQUEST_TOKEN
+                )
+            );
 
             // prepare include breadcrumbs
             $includes = array();
@@ -70,12 +75,29 @@ class ContentArticleExtended extends \ContentArticle
                 // get the page titles
                 $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
 
+                // css classes for list
+                $classes = array();
+                if( $objElements->id == $this->id ) $classes[] = 'self';
+                if( $objElements->invisible ) $classes[] = 'hidden';
+
                 // create breadcrumb
-                $includes[] = ( $objElements->id == $this->id ? '<b>' : '' ) . implode( ' &raquo; ', $arrPageTitles ) . ( $objElements->id == $this->id ? '</b>' : '' );
+                $includes[] = array
+                (
+                    'crumbs' => implode( ' &raquo; ', $arrPageTitles ),
+                    'article' => array
+                    (
+                        'title' => $objArticle->title,
+                        'link' => 'contao/main.php?do=article&amp;table=tl_content&amp;id=' . $objArticle->id . '&amp;rt=' . REQUEST_TOKEN
+                    ),
+                    'class' => implode( ' ', $classes )
+                );
             }
 
             // set include breadcrumbs
             $objTemplate->includes = $includes;
+
+            // add CSS
+            $GLOBALS['TL_CSS'][] = 'system/modules/be_include_info/assets/be_styles.css    ';
 
             // return info + content
             return $objTemplate->parse() . parent::generate();

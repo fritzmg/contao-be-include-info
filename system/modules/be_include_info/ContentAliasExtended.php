@@ -36,7 +36,7 @@ class ContentAliasExtended extends \ContentAlias
 
             // get the element
             $objElement = \ContentModel::findByPk($this->cteAlias);
-            if( $objElement === null ) return parent::generate();
+            if( $objElement === null ) return '';
 
             // get the parent article
             $objArticle = \ArticleModel::findByPk($objElement->pid);
@@ -53,10 +53,15 @@ class ContentAliasExtended extends \ContentAlias
             $objElements = \ContentModel::findBy('cteAlias', $this->cteAlias, array('order' => 'id'));
 
             // set breadcrumb to original element
-            $objTemplate->original = implode( ' &raquo; ', $arrPageTitles );
-
-            // set edit url
-            $objTemplate->editurl = 'contao/main.php?do=article&amp;table=tl_content&amp;act=edit&amp;id=' . $this->cteAlias;
+            $objTemplate->original = array
+            (
+                'crumbs' => implode( ' &raquo; ', $arrPageTitles ),
+                'article' => array
+                (
+                    'title' => $objArticle->title,
+                    'link' => 'contao/main.php?do=article&amp;table=tl_content&amp;id=' . $objArticle->id . '&amp;rt=' . REQUEST_TOKEN
+                )
+            );
 
             // prepare include breadcrumbs
             $includes = array();
@@ -71,16 +76,33 @@ class ContentAliasExtended extends \ContentAlias
                 // get the parent pages
                 $objPages = \PageModel::findParentsById($objArticle->pid);
                 if( $objPages === null ) continue;    
-                
+      
                 // get the page titles
                 $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
 
+                // css classes for list
+                $classes = array();
+                if( $objElements->id == $this->id ) $classes[] = 'self';
+                if( $objElements->invisible ) $classes[] = 'hidden';
+
                 // create breadcrumb
-                $includes[] = ( $objElements->id == $this->id ? '<b>' : '' ) . implode( ' &raquo; ', $arrPageTitles ) . ( $objElements->id == $this->id ? '</b>' : '' );
+                $includes[] = array
+                (
+                    'crumbs' => implode( ' &raquo; ', $arrPageTitles ),
+                    'article' => array
+                    (
+                        'title' => $objArticle->title,
+                        'link' => 'contao/main.php?do=article&amp;table=tl_content&amp;id=' . $objArticle->id . '&amp;rt=' . REQUEST_TOKEN
+                    ),
+                    'class' => implode( ' ', $classes )
+                );
             }
 
             // set include breadcrumbs
             $objTemplate->includes = $includes;
+
+            // add CSS
+            $GLOBALS['TL_CSS'][] = 'system/modules/be_include_info/assets/be_styles.css    ';
 
             // return info + content
             return $objTemplate->parse() . parent::generate();

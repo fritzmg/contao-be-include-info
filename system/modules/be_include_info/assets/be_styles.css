@@ -1,0 +1,47 @@
+
+.tl_includes {
+	float:right;
+	margin-left:20px;
+	margin-bottom:10px;
+	max-width:65%;
+}
+
+.tl_includes,
+.tl_includes td,
+.tl_includes td a,
+.tl_includes li,
+.tl_includes li a {
+	color:rgb(128,128,128);
+}
+
+.tl_includes [class*="_label"] {
+	padding-right:5px;
+	text-align:right;
+	vertical-align:baseline;
+}
+
+.tl_listing_container .tl_includes ul li > * {
+	vertical-align:baseline;
+}
+
+.tl_includes ul li.hidden {
+	display:block;
+}
+
+.tl_includes ul li.hidden,
+.tl_includes ul li.hidden a {
+	color:rgb(224,224,224);
+}
+
+.tl_includes ul li.self,
+.tl_includes ul li.self a {
+	color:rgb(32,32,32);
+}
+
+.tl_includes a:hover,
+.tl_includes ul li.self a:hover,
+.tl_includes ul li.hidden a:hover,
+.tl_includes td a:hover,
+.tl_includes li a:hover {
+	color:#77AC45;
+}
