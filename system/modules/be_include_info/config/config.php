@@ -17,4 +17,5 @@
  * Content elements
  */
 $GLOBALS['TL_CTE']['includes']['article'] = 'ContentArticleExtended';
-$GLOBALS['TL_CTE']['includes']['alias'] = 'ContentAliasExtended';
+$GLOBALS['TL_CTE']['includes']['alias']   = 'ContentAliasExtended';
+$GLOBALS['TL_CTE']['includes']['module']  = 'ContentModuleExtended';

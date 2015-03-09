@@ -19,7 +19,8 @@
 ClassLoader::addClasses(array
 (
     'Contao\ContentAliasExtended'   => 'system/modules/be_include_info/ContentAliasExtended.php',
-    'Contao\ContentArticleExtended' => 'system/modules/be_include_info/ContentArticleExtended.php'
+    'Contao\ContentArticleExtended' => 'system/modules/be_include_info/ContentArticleExtended.php',
+    'Contao\ContentModuleExtended'  => 'system/modules/be_include_info/ContentModuleExtended.php'
 ));
 
 
