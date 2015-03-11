@@ -29,152 +29,152 @@ namespace Contao;
 abstract class ContentElement extends \Frontend
 {
 
-	/**
-	 * Template
-	 * @var string
-	 */
-	protected $strTemplate;
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate;
 
-	/**
-	 * Column
-	 * @var string
-	 */
-	protected $strColumn;
+    /**
+     * Column
+     * @var string
+     */
+    protected $strColumn;
 
-	/**
-	 * Model
-	 * @var Model
-	 */
-	protected $objModel;
+    /**
+     * Model
+     * @var Model
+     */
+    protected $objModel;
 
-	/**
-	 * Current record
-	 * @var array
-	 */
-	protected $arrData = array();
+    /**
+     * Current record
+     * @var array
+     */
+    protected $arrData = array();
 
-	/**
-	 * Processed folders
-	 * @var array
-	 */
-	protected $arrProcessed = array();
+    /**
+     * Processed folders
+     * @var array
+     */
+    protected $arrProcessed = array();
 
-	/**
-	 * Style array
-	 * @var array
-	 */
-	protected $arrStyle = array();
-
-
-	/**
-	 * Initialize the object
-	 * @param object
-	 * @param string
-	 */
-	public function __construct($objElement, $strColumn='main')
-	{
-		if ($objElement instanceof \Model)
-		{
-			$this->objModel = $objElement;
-		}
-		elseif ($objElement instanceof \Model\Collection)
-		{
-			$this->objModel = $objElement->current();
-		}
-
-		parent::__construct();
-
-		$this->arrData = $objElement->row();
-		$this->space = deserialize($objElement->space);
-		$this->cssID = deserialize($objElement->cssID, true);
-
-		$arrHeadline = deserialize($objElement->headline);
-		$this->headline = is_array($arrHeadline) ? $arrHeadline['value'] : $arrHeadline;
-		$this->hl = is_array($arrHeadline) ? $arrHeadline['unit'] : 'h1';
-		$this->strColumn = $strColumn;
-	}
+    /**
+     * Style array
+     * @var array
+     */
+    protected $arrStyle = array();
 
 
-	/**
-	 * Set an object property
-	 * @param string
-	 * @param mixed
-	 */
-	public function __set($strKey, $varValue)
-	{
-		$this->arrData[$strKey] = $varValue;
-	}
+    /**
+     * Initialize the object
+     * @param object
+     * @param string
+     */
+    public function __construct($objElement, $strColumn='main')
+    {
+        if ($objElement instanceof \Model)
+        {
+            $this->objModel = $objElement;
+        }
+        elseif ($objElement instanceof \Model\Collection)
+        {
+            $this->objModel = $objElement->current();
+        }
+
+        parent::__construct();
+
+        $this->arrData = $objElement->row();
+        $this->space = deserialize($objElement->space);
+        $this->cssID = deserialize($objElement->cssID, true);
+
+        $arrHeadline = deserialize($objElement->headline);
+        $this->headline = is_array($arrHeadline) ? $arrHeadline['value'] : $arrHeadline;
+        $this->hl = is_array($arrHeadline) ? $arrHeadline['unit'] : 'h1';
+        $this->strColumn = $strColumn;
+    }
 
 
-	/**
-	 * Return an object property
-	 * @param string
-	 * @return mixed
-	 */
-	public function __get($strKey)
-	{
-		if (isset($this->arrData[$strKey]))
-		{
-			return $this->arrData[$strKey];
-		}
-
-		return parent::__get($strKey);
-	}
+    /**
+     * Set an object property
+     * @param string
+     * @param mixed
+     */
+    public function __set($strKey, $varValue)
+    {
+        $this->arrData[$strKey] = $varValue;
+    }
 
 
-	/**
-	 * Check whether a property is set
-	 * @param string
-	 * @return boolean
-	 */
-	public function __isset($strKey)
-	{
-		return isset($this->arrData[$strKey]);
-	}
+    /**
+     * Return an object property
+     * @param string
+     * @return mixed
+     */
+    public function __get($strKey)
+    {
+        if (isset($this->arrData[$strKey]))
+        {
+            return $this->arrData[$strKey];
+        }
+
+        return parent::__get($strKey);
+    }
 
 
-	/**
-	 * Parse the template
-	 * @return string
-	 */
-	public function generate()
-	{
-		if (TL_MODE == 'FE' && !BE_USER_LOGGED_IN && ($this->invisible || ($this->start > 0 && $this->start > time()) || ($this->stop > 0 && $this->stop < time())))
-		{
-			return '';
-		}
+    /**
+     * Check whether a property is set
+     * @param string
+     * @return boolean
+     */
+    public function __isset($strKey)
+    {
+        return isset($this->arrData[$strKey]);
+    }
 
-		if ($this->arrData['space'][0] != '')
-		{
-			$this->arrStyle[] = 'margin-top:'.$this->arrData['space'][0].'px;';
-		}
 
-		if ($this->arrData['space'][1] != '')
-		{
-			$this->arrStyle[] = 'margin-bottom:'.$this->arrData['space'][1].'px;';
-		}
+    /**
+     * Parse the template
+     * @return string
+     */
+    public function generate()
+    {
+        if (TL_MODE == 'FE' && !BE_USER_LOGGED_IN && ($this->invisible || ($this->start > 0 && $this->start > time()) || ($this->stop > 0 && $this->stop < time())))
+        {
+            return '';
+        }
 
-		$this->Template = new \FrontendTemplate($this->strTemplate);
-		$this->Template->setData($this->arrData);
+        if ($this->arrData['space'][0] != '')
+        {
+            $this->arrStyle[] = 'margin-top:'.$this->arrData['space'][0].'px;';
+        }
 
-		$this->compile();
+        if ($this->arrData['space'][1] != '')
+        {
+            $this->arrStyle[] = 'margin-bottom:'.$this->arrData['space'][1].'px;';
+        }
 
-		// Do not change this order (see #6191)
-		$this->Template->style = !empty($this->arrStyle) ? implode(' ', $this->arrStyle) : '';
-		$this->Template->class = trim('ce_' . $this->type . ' ' . $this->cssID[1]);
-		$this->Template->cssID = ($this->cssID[0] != '') ? ' id="' . $this->cssID[0] . '"' : '';
+        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template->setData($this->arrData);
 
-		$this->Template->inColumn = $this->strColumn;
+        $this->compile();
 
-		if ($this->Template->headline == '')
-		{
-			$this->Template->headline = $this->headline;
-		}
+        // Do not change this order (see #6191)
+        $this->Template->style = !empty($this->arrStyle) ? implode(' ', $this->arrStyle) : '';
+        $this->Template->class = trim('ce_' . $this->type . ' ' . $this->cssID[1]);
+        $this->Template->cssID = ($this->cssID[0] != '') ? ' id="' . $this->cssID[0] . '"' : '';
 
-		if ($this->Template->hl == '')
-		{
-			$this->Template->hl = $this->hl;
-		}
+        $this->Template->inColumn = $this->strColumn;
+
+        if ($this->Template->headline == '')
+        {
+            $this->Template->headline = $this->headline;
+        }
+
+        if ($this->Template->hl == '')
+        {
+            $this->Template->hl = $this->hl;
+        }
 
         // add include information in backend
         if( TL_MODE == 'BE' )
@@ -234,36 +234,36 @@ abstract class ContentElement extends \Frontend
             }
         }
 
-		return $this->Template->parse();
-	}
+        return $this->Template->parse();
+    }
 
 
-	/**
-	 * Compile the content element
-	 */
-	abstract protected function compile();
+    /**
+     * Compile the content element
+     */
+    abstract protected function compile();
 
 
-	/**
-	 * Find a content element in the TL_CTE array and return the class name
-	 *
-	 * @param string $strName The content element name
-	 *
-	 * @return string The class name
-	 */
-	public static function findClass($strName)
-	{
-		foreach ($GLOBALS['TL_CTE'] as $v)
-		{
-			foreach ($v as $kk=>$vv)
-			{
-				if ($kk == $strName)
-				{
-					return $vv;
-				}
-			}
-		}
+    /**
+     * Find a content element in the TL_CTE array and return the class name
+     *
+     * @param string $strName The content element name
+     *
+     * @return string The class name
+     */
+    public static function findClass($strName)
+    {
+        foreach ($GLOBALS['TL_CTE'] as $v)
+        {
+            foreach ($v as $kk=>$vv)
+            {
+                if ($kk == $strName)
+                {
+                    return $vv;
+                }
+            }
+        }
 
-		return '';
-	}
+        return '';
+    }
 }
