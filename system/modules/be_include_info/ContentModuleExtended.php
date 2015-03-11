@@ -76,7 +76,7 @@ class ContentModuleExtended extends \ContentModule
             $objTemplate->includes = $includes;
 
             // add CSS
-            $GLOBALS['TL_CSS'][] = 'system/modules/be_include_info/assets/be_styles.css    ';
+            \IncludeInfoHelper::addBackendCSS();
 
             // return info + content
             return $objTemplate->parse() . parent::generate();

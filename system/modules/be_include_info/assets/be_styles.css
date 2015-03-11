@@ -6,6 +6,10 @@
 	max-width:65%;
 }
 
+.tl_includes + .tl_includes {
+	display:none;
+}
+
 .tl_includes,
 .tl_includes td,
 .tl_includes td a,
