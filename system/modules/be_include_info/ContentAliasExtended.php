@@ -99,7 +99,8 @@ class ContentAliasExtended extends \ContentAlias
             }
 
             // set include breadcrumbs
-            $objTemplate->includes = $includes;
+            if( count( $includes ) > 1 )
+                $objTemplate->includes = $includes;
 
             // add CSS
             \IncludeInfoHelper::addBackendCSS();

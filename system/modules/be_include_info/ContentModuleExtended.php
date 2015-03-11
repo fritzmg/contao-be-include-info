@@ -73,7 +73,8 @@ class ContentModuleExtended extends \ContentModule
             }
 
             // set include breadcrumbs
-            $objTemplate->includes = $includes;
+            if( count( $includes ) > 1 )
+                $objTemplate->includes = $includes;
 
             // add CSS
             \IncludeInfoHelper::addBackendCSS();

@@ -10,7 +10,7 @@
             </tr>
             <?php endif; ?>
             <tr>
-                <?php if( count( $this->includes ) > 1 ): ?>
+                <?php if( $this->includes ): ?>
                 <td class="includes_label"><?php echo $GLOBALS['TL_LANG']['tl_content']['inc_includesLabel']; ?></td>
                 <td class="includes">
                     <ul>
