@@ -21,7 +21,8 @@ ClassLoader::addClasses(array
     'Contao\ContentAliasExtended'   => 'system/modules/be_include_info/ContentAliasExtended.php',
     'Contao\ContentArticleExtended' => 'system/modules/be_include_info/ContentArticleExtended.php',
     'Contao\ContentModuleExtended'  => 'system/modules/be_include_info/ContentModuleExtended.php',
-    'Contao\IncludeInfoHelper'      => 'system/modules/be_include_info/IncludeInfoHelper.php'
+    'Contao\IncludeInfoHelper'      => 'system/modules/be_include_info/IncludeInfoHelper.php',
+    'Contao\IncludeInfoField'       => 'system/modules/be_include_info/IncludeInfoField.php'
 ));
 
 $cefile = 'system/modules/be_include_info/ContentElement_C34.php';

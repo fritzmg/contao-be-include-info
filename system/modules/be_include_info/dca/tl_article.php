@@ -13,15 +13,8 @@
  */
 
 
-/**
- * Form fields
- */
-$GLOBALS['BE_FFL']['includeInfo'] = 'IncludeInfoField';
+foreach( $GLOBALS['TL_DCA']['tl_article']['palettes'] as &$palette )
+	if( is_string( $palette ) )
+		$palette.= ';{includeinfo_legend:hide},includeinfo';
 
-
-/**
- * Content elements
- */
-$GLOBALS['TL_CTE']['includes']['article'] = 'ContentArticleExtended';
-$GLOBALS['TL_CTE']['includes']['alias']   = 'ContentAliasExtended';
-$GLOBALS['TL_CTE']['includes']['module']  = 'ContentModuleExtended';
+$GLOBALS['TL_DCA']['tl_article']['fields']['includeinfo'] = array( 'inputType' => 'includeInfo' );

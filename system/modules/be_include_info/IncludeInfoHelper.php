@@ -25,10 +25,7 @@ class IncludeInfoHelper extends \Backend
     // path to backend CSS file
     const BACKEND_CSS = 'system/modules/be_include_info/assets/be_styles.css';
 
-    /**
-     * Parse the template
-     * @return string
-     */
+    // adds backend css
     public static function addBackendCSS()
     {
         if( !is_array( $GLOBALS['TL_CSS'] ) )
@@ -36,5 +33,54 @@ class IncludeInfoHelper extends \Backend
 
         if( !in_array( self::BACKEND_CSS, $GLOBALS['TL_CSS'] ) )
             $GLOBALS['TL_CSS'][] = self::BACKEND_CSS;
+    }
+
+    // returns array of include elements
+    public static function getIncludes( $where, $includeId, $selfId = null )
+    {
+        // get all include elements
+        $objElements = \ContentModel::findBy( $where, $includeId, array('order' => 'id'));
+
+        // check for result
+        if( $objElements === null )
+            return array();
+
+        // prepare include breadcrumbs
+        $includes = array();
+
+        // go throuch each include element
+        while( $objElements->next() )
+        {
+            // get the parent article
+            $objArticle = \ArticleModel::findByPk($objElements->pid);
+            if( $objArticle === null ) continue;
+
+            // get the parent pages
+            $objPages = \PageModel::findParentsById($objArticle->pid);
+            if( $objPages === null ) continue;    
+  
+            // get the page titles
+            $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
+
+            // css classes for list
+            $classes = array();
+            if( $objElements->id == $selfId ) $classes[] = 'self';
+            if( $objElements->invisible ) $classes[] = 'hidden';
+
+            // create breadcrumb
+            $includes[] = array
+            (
+                'crumbs' => implode( ' &raquo; ', $arrPageTitles ),
+                'article' => array
+                (
+                    'title' => $objArticle->title,
+                    'link' => 'contao/main.php?do=article&amp;table=tl_content&amp;id=' . $objArticle->id . '&amp;rt=' . REQUEST_TOKEN
+                ),
+                'class' => implode( ' ', $classes )
+            );
+        }
+
+        // return the include elements
+        return $includes;
     }
 }

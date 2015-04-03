@@ -22,7 +22,6 @@ namespace Contao;
  */
 class ContentAliasExtended extends \ContentAlias
 {
-
     /**
      * Parse the template
      * @return string
@@ -49,9 +48,6 @@ class ContentAliasExtended extends \ContentAlias
             // get the page titles
             $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
 
-            // get all include elements
-            $objElements = \ContentModel::findBy('cteAlias', $this->cteAlias, array('order' => 'id'));
-
             // set breadcrumb to original element
             $objTemplate->original = array
             (
@@ -63,40 +59,8 @@ class ContentAliasExtended extends \ContentAlias
                 )
             );
 
-            // prepare include breadcrumbs
-            $includes = array();
-
-            // go throuch each include element
-            while( $objElements->next() )
-            {
-                // get the parent article
-                $objArticle = \ArticleModel::findByPk($objElements->pid);
-                if( $objArticle === null ) continue;
-
-                // get the parent pages
-                $objPages = \PageModel::findParentsById($objArticle->pid);
-                if( $objPages === null ) continue;    
-      
-                // get the page titles
-                $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
-
-                // css classes for list
-                $classes = array();
-                if( $objElements->id == $this->id ) $classes[] = 'self';
-                if( $objElements->invisible ) $classes[] = 'hidden';
-
-                // create breadcrumb
-                $includes[] = array
-                (
-                    'crumbs' => implode( ' &raquo; ', $arrPageTitles ),
-                    'article' => array
-                    (
-                        'title' => $objArticle->title,
-                        'link' => 'contao/main.php?do=article&amp;table=tl_content&amp;id=' . $objArticle->id . '&amp;rt=' . REQUEST_TOKEN
-                    ),
-                    'class' => implode( ' ', $classes )
-                );
-            }
+            // get include breadcrumbs
+            $includes = \IncludeInfoHelper::getIncludes( 'cteAlias', $this->cteAlias, $this->id );
 
             // set include breadcrumbs
             if( count( $includes ) > 1 )

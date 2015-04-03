@@ -1,5 +1,9 @@
 
-.tl_includes {
+.tl_box .tl_includes {
+	margin-left:18px;
+}
+
+.tl_content .tl_includes {
 	float:right;
 	margin-left:20px;
 	margin-bottom:10px;
@@ -16,6 +20,14 @@
 .tl_includes li,
 .tl_includes li a {
 	color:rgb(128,128,128);
+}
+
+.tl_box .tl_includes,
+.tl_box .tl_includes td,
+.tl_box .tl_includes td a,
+.tl_box .tl_includes li,
+.tl_box .tl_includes li a {
+	color:rgb(96,96,96);
 }
 
 .tl_includes [class*="_label"] {

@@ -175,49 +175,14 @@ abstract class ContentElement extends \Frontend
         // add include information in backend
         if( TL_MODE == 'BE' )
         {
-            // get alias content elements that reference this content element
-            $objElements = \ContentModel::findBy( array("cteAlias = ? AND type = 'alias'"), array($this->id), array('order' => 'id') );
+            // get include breadcrumbs that reference this content element
+            $includes = \IncludeInfoHelper::getIncludes( array("cteAlias = ? AND type = 'alias'"), array( $this->id ), $this->id );
 
             // check for result
-            if( $objElements !== null )
+            if( count( $includes ) > 0 )
             {
                 // create new backend template
                 $objTemplate = new \BackendTemplate('be_include');
-
-                // prepare include breadcrumbs
-                $includes = array();
-
-                // go throuch each include element
-                while( $objElements->next() )
-                {
-                    // get the parent article
-                    $objArticle = \ArticleModel::findByPk($objElements->pid);
-                    if( $objArticle === null ) continue;
-
-                    // get the parent pages\
-                    $objPages = \PageModel::findParentsById($objArticle->pid);
-                    if( $objPages === null ) continue;    
-          
-                    // get the page titles
-                    $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
-
-                    // css classes for list
-                    $classes = array();
-                    if( $objElements->id == $this->id ) $classes[] = 'self';
-                    if( $objElements->invisible ) $classes[] = 'hidden';
-
-                    // create breadcrumb
-                    $includes[] = array
-                    (
-                        'crumbs' => implode( ' &raquo; ', $arrPageTitles ),
-                        'article' => array
-                        (
-                            'title' => $objArticle->title,
-                            'link' => 'contao/main.php?do=article&amp;table=tl_content&amp;id=' . $objArticle->id . '&amp;rt=' . REQUEST_TOKEN
-                        ),
-                        'class' => implode( ' ', $classes )
-                    );
-                }
 
                 // set include breadcrumbs
                 $objTemplate->includes = $includes;
