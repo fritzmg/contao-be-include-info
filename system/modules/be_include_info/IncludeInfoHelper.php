@@ -25,16 +25,6 @@ class IncludeInfoHelper extends \Backend
     // path to backend CSS file
     const BACKEND_CSS = 'system/modules/be_include_info/assets/be_styles.css';
 
-    // adds backend css
-    public static function addBackendCSS()
-    {
-        if( !is_array( $GLOBALS['TL_CSS'] ) )
-            $GLOBALS['TL_CSS'] = array();
-
-        if( !in_array( self::BACKEND_CSS, $GLOBALS['TL_CSS'] ) )
-            $GLOBALS['TL_CSS'][] = self::BACKEND_CSS;
-    }
-
     // returns array of include elements
     public static function getIncludes( $where, $includeId, $selfId = null )
     {

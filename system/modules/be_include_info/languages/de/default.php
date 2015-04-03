@@ -18,3 +18,4 @@ $GLOBALS['TL_LANG']['tl_content']['inc_includesLabel'] = 'Inkludiert:';
 $GLOBALS['TL_LANG']['tl_content']['inc_contentLabel']  = 'Inhalt:';
 
 $GLOBALS['TL_LANG']['tl_content']['includeinfo_legend'] = 'Include info';
+$GLOBALS['TL_LANG']['tl_article']['includeinfo_legend'] = 'Include info';

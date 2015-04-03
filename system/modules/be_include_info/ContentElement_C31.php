@@ -192,7 +192,7 @@ abstract class ContentElement extends \Frontend
                 $objTemplate->includes = $includes;
 
                 // add CSS
-                \IncludeInfoHelper::addBackendCSS();
+                $GLOBALS['TL_CSS'][] = \IncludeInfoHelper::BACKEND_CSS;
 
                 // return parsed template with include info
                 return $objTemplate->parse() . $this->Template->parse();

@@ -67,7 +67,7 @@ class ContentAliasExtended extends \ContentAlias
                 $objTemplate->includes = $includes;
 
             // add CSS
-            \IncludeInfoHelper::addBackendCSS();
+            $GLOBALS['TL_CSS'][] = \IncludeInfoHelper::BACKEND_CSS;
 
             // return info + content
             return $objTemplate->parse() . parent::generate();

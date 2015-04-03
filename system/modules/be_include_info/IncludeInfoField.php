@@ -133,7 +133,7 @@ class IncludeInfoField extends \Widget
 
 		// check for includes and add CSS
 		if( $objTemplate->includes )
-			\IncludeInfoHelper::addBackendCSS();
+			$GLOBALS['TL_CSS'][] = \IncludeInfoHelper::BACKEND_CSS;
 
 		// return template
 		return $objTemplate->parse();
