@@ -130,6 +130,15 @@ class IncludeInfoField extends \Widget
             if( count( $includes ) > 0 )
                 $objTemplate->includes = $includes;
 		}
+        elseif( $table == 'tl_module' )
+        {
+            // get include breadcrumbs that reference this module
+            $includes = \IncludeInfoHelper::getIncludes( array("module = ? AND type = 'module'"), array( $activeRecord->id ) );
+
+            // set include breadcrumbs
+            if( count( $includes ) > 0 )
+                $objTemplate->includes = $includes;
+        }
 
 		// check for includes and add CSS
 		if( $objTemplate->includes )

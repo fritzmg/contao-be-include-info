@@ -13,8 +13,5 @@
  */
 
 
-foreach( $GLOBALS['TL_DCA']['tl_article']['palettes'] as &$palette )
-	if( is_string( $palette ) )
-		$palette.= ';{includeinfo_legend:hide},includeinfo';
-
 $GLOBALS['TL_DCA']['tl_article']['fields']['includeinfo'] = array( 'inputType' => 'includeInfo' );
+$GLOBALS['TL_DCA']['tl_article']['config']['onload_callback'][] = array( 'IncludeInfoHelper', 'onloadArticle' );
