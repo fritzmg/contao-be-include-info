@@ -13,5 +13,5 @@
  */
 
 
-$GLOBALS['TL_DCA']['tl_content']['fields']['includeinfo'] = array( 'inputType' => 'includeInfo' );
+$GLOBALS['TL_DCA']['tl_content']['fields']['includeinfo'] = array( 'inputType' => 'includeInfo', 'sql' => "char(1) NOT NULL default ''" );
 $GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = array( 'IncludeInfoHelper', 'onloadContent' );
