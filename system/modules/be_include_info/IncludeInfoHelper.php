@@ -75,21 +75,21 @@ class IncludeInfoHelper extends \Backend
     }
 
     // modifies the DCA to inject includeInfo field
-    public function onloadContent( \DataContainer $dc )
+    public function onloadContent($dc)
     {
         foreach( $GLOBALS['TL_DCA']['tl_content']['palettes'] as &$palette )
             if( is_string( $palette ) )
                 if( stripos( $palette, ';{includeinfo_legend:hide},includeinfo' ) === false )
                     $palette.= ';{includeinfo_legend:hide},includeinfo';    
     }
-    public function onloadArticle( \DataContainer $dc )
+    public function onloadArticle($dc)
     {
         foreach( $GLOBALS['TL_DCA']['tl_article']['palettes'] as &$palette )
             if( is_string( $palette ) )
                 if( stripos( $palette, ';{includeinfo_legend:hide},includeinfo' ) === false )
                     $palette.= ';{includeinfo_legend:hide},includeinfo';        
     }
-    public function onloadModule( \DataContainer $dc )
+    public function onloadModule($dc)
     {
         foreach( $GLOBALS['TL_DCA']['tl_module']['palettes'] as &$palette )
             if( is_string( $palette ) )
