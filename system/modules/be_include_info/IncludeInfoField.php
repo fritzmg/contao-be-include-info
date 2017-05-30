@@ -37,13 +37,13 @@ class IncludeInfoField extends \Widget
 		$objTemplate = new \BackendTemplate('be_include');
 
 		// get the active record
-		$activeRecord = $this->arrConfiguration['activeRecord'];
+		$activeRecord = $this->dataContainer->activeRecord;
 
 		// get the type
 		$type = $activeRecord->type;
 
 		// get the table
-		$table = $this->arrConfiguration['strTable'];
+		$table = $this->strTable;
 
 		// depending on type
 		if( $type == 'alias' )
