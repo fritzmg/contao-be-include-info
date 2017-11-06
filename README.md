@@ -1,3 +1,7 @@
+[![](https://img.shields.io/maintenance/yes/2017.svg)](https://github.com/fritzmg/contao-be-include-info)
+[![](https://img.shields.io/packagist/v/fritzmg/contao-be-include-info.svg)](https://packagist.org/packages/fritzmg/contao-be-include-info)
+[![](https://img.shields.io/packagist/dt/fritzmg/contao-be-include-info.svg)](https://packagist.org/packages/fritzmg/contao-be-include-info)
+
 Contao Backend Include Info
 ===================
 
