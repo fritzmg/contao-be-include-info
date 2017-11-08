@@ -20,45 +20,45 @@ namespace Contao;
  */
 class IncludeInfoField extends \Widget
 {
-	/**
-	 * Template
-	 * @var string
-	 */
-	protected $strTemplate = 'be_widget_chk';
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'be_widget_chk';
 
 
-	/**
-	 * Generate the widget and return it as string
-	 * @return string
-	 */
-	public function generate()
-	{
-		// create new include template
-		$objTemplate = new \BackendTemplate('be_include');
+    /**
+     * Generate the widget and return it as string
+     * @return string
+     */
+    public function generate()
+    {
+        // create new include template
+        $objTemplate = new \BackendTemplate('be_include');
 
-		// get the active record
-		$activeRecord = $this->dataContainer->activeRecord;
+        // get the active record
+        $activeRecord = $this->dataContainer->activeRecord;
 
-		// get the type
-		$type = $activeRecord->type;
+        // get the type
+        $type = $activeRecord->type;
 
-		// get the table
-		$table = $this->strTable;
+        // get the table
+        $table = $this->strTable;
 
-		// depending on type
-		if( $type == 'alias' )
-		{
-			// get the element
+        // depending on type
+        if( $type == 'alias' )
+        {
+            // get the element
             $objElement = \ContentModel::findByPk( $activeRecord->cteAlias );
             if( $objElement === null ) return '';
 
             // get the parent article
             $objArticle = \ArticleModel::findByPk( $objElement->pid );
-            if( $objArticle === null ) return parent::generate();
+            if( $objArticle === null ) return '';
 
             // get the parent pages
             $objPages = \PageModel::findParentsById( $objArticle->pid );
-            if( $objPages === null ) return parent::generate();
+            if( $objPages === null ) return '';
 
             // get the page titles
             $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
@@ -80,16 +80,16 @@ class IncludeInfoField extends \Widget
             // set include breadcrumbs
             if( count( $includes ) > 1 )
                 $objTemplate->includes = $includes;
-		}
-		elseif( $type == 'article' )
-		{
+        }
+        elseif( $type == 'article' )
+        {
             // get the article
             $objArticle = \ArticleModel::findByPk( $activeRecord->articleAlias );
-            if( $objArticle === null ) return parent::generate();
+            if( $objArticle === null ) return '';
 
             // get the parent pages
             $objPages = \PageModel::findParentsById( $objArticle->pid );
-            if( $objPages === null ) return parent::generate();
+            if( $objPages === null ) return '';
 
             // get the page titles
             $arrPageTitles = array_reverse( $objPages->fetchEach('title') );
@@ -111,25 +111,25 @@ class IncludeInfoField extends \Widget
             // set include breadcrumbs
             if( count( $includes ) > 1 )
                 $objTemplate->includes = $includes;
-		}
-		elseif( $table == 'tl_content' )
-		{
-			// get include breadcrumbs that reference this content element
-	        $includes = \IncludeInfoHelper::getIncludes( array("cteAlias = ? AND type = 'alias'"), array( $activeRecord->id ) );
+        }
+        elseif( $table == 'tl_content' )
+        {
+            // get include breadcrumbs that reference this content element
+            $includes = \IncludeInfoHelper::getIncludes( array("cteAlias = ? AND type = 'alias'"), array( $activeRecord->id ) );
 
-	        // set include breadcrumbs
+            // set include breadcrumbs
             if( count( $includes ) > 0 )
                 $objTemplate->includes = $includes;
-	    }
-		elseif( $table == 'tl_article' )
-		{
-			// get include breadcrumbs that reference this article
-	        $includes = \IncludeInfoHelper::getIncludes( array("articleAlias = ? AND type = 'article'"), array( $activeRecord->id ) );
+        }
+        elseif( $table == 'tl_article' )
+        {
+            // get include breadcrumbs that reference this article
+            $includes = \IncludeInfoHelper::getIncludes( array("articleAlias = ? AND type = 'article'"), array( $activeRecord->id ) );
 
-	        // set include breadcrumbs
+            // set include breadcrumbs
             if( count( $includes ) > 0 )
                 $objTemplate->includes = $includes;
-		}
+        }
         elseif( $table == 'tl_module' )
         {
             // get include breadcrumbs that reference this module
@@ -140,11 +140,11 @@ class IncludeInfoField extends \Widget
                 $objTemplate->includes = $includes;
         }
 
-		// check for includes and add CSS
-		if( $objTemplate->includes )
-			$GLOBALS['TL_CSS'][] = \IncludeInfoHelper::BACKEND_CSS;
+        // check for includes and add CSS
+        if( $objTemplate->includes )
+            $GLOBALS['TL_CSS'][] = \IncludeInfoHelper::BACKEND_CSS;
 
-		// return template
-		return $objTemplate->parse();
-	}
+        // return template
+        return $objTemplate->parse();
+    }
 }
