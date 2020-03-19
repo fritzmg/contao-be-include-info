@@ -1,3 +1,7 @@
+__Abandoned.__ This package is superseded by [inspiredminds/contao-include-info](https://github.com/inspiredminds/contao-include-info).
+
+<hr>
+
 [![](https://img.shields.io/maintenance/yes/2017.svg)](https://github.com/fritzmg/contao-be-include-info)
 [![](https://img.shields.io/packagist/v/fritzmg/contao-be-include-info.svg)](https://packagist.org/packages/fritzmg/contao-be-include-info)
 [![](https://img.shields.io/packagist/dt/fritzmg/contao-be-include-info.svg)](https://packagist.org/packages/fritzmg/contao-be-include-info)
